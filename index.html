@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOPNUS SYARIAH - Saatnya #HidupBerkah</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Google Fonts & Font Awesome for icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config for precise branding colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brandOrange: {
+                            50: '#fff3eb',
+                            100: '#ffe4d1',
+                            200: '#ffcaaa',
+                            500: '#f26522', // Official Kopnus Orange
+                            600: '#d94c0b',
+                            700: '#b33505',
+                            800: '#8c2502',
+                        },
+                        brandGreen: {
+                            50: '#eefdf4',
+                            100: '#d5fbe2',
+                            500: '#008244', // Sharia Green
+                            600: '#006c36',
+                            700: '#005228',
+                            800: '#115e3b',
+                            900: '#0c472a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom styles for animations and extra visual flare */
+        .glass-header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .pattern-bg {
+            background-color: #ffffff;
+            background-image: radial-gradient(#008244 0.5px, transparent 0.5px), radial-gradient(#008244 0.5px, #ffffff 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            opacity: 0.03;
+        }
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 antialiased" x-data="{ mobileMenuOpen: false, modalOpen: false, modalType: '', contactSuccess: false, productTab: 'simpanan' }">
+
+    <!-- Sticky Navigation Bar -->
+    <nav class="sticky top-0 z-50 glass-header border-b border-gray-100 transition-all duration-300 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#beranda" class="flex items-center gap-3">
+                        <div class="relative flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-tr from-brandOrange-500 to-amber-400 shadow-md">
+                            <span class="text-white font-extrabold text-2xl tracking-tighter">O</span>
+                            <div class="absolute -right-1 -bottom-1 w-5 h-5 bg-brandGreen-600 rounded-full flex items-center justify-center border-2 border-white">
+                                <i class="fa-solid fa-mosque text-[9px] text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-extrabold tracking-tight text-brandGreen-800 leading-none">KOPNUS</span>
+                            <span class="text-sm font-bold text-brandOrange-500 tracking-wider">SYARIAH</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu Options -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#beranda" class="text-gray-600 hover:text-brandOrange-500 font-medium transition duration-200">Beranda</a>
+                    <a href="#layanan" class="text-gray-600 hover:text-brandOrange-500 font-medium transition duration-200">Produk & Layanan</a>
+                    <a href="#simulasi" class="text-gray-600 hover:text-brandOrange-500 font-medium transition duration-200">Kalkulator Syariah</a>
+                    <a href="#tentang" class="text-gray-600 hover:text-brandOrange-500 font-medium transition duration-200">Tentang Kami</a>
+                    <a href="#lokasi" class="text-gray-600 hover:text-brandOrange-500 font-medium transition duration-200">Cabang</a>
+                    <a href="#kontak" class="text-gray-600 hover:text-brandOrange-500 font-medium transition duration-200">Hubungi Kami</a>
+                </div>
+
+                <!-- Action Button -->
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="#download" class="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-brandOrange-500 to-brandOrange-600 hover:from-brandOrange-600 hover:to-brandOrange-700 shadow-md hover:shadow-lg transition-all duration-300">
+                        <i class="fa-solid fa-mobile-screen-button mr-2"></i> Download App
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-brandOrange-500 hover:bg-gray-100 focus:outline-none transition-colors duration-200" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Buka menu utama</span>
+                        <i class="fa-solid" :class="mobileMenuOpen ? 'fa-xmark text-2xl' : 'fa-bars text-2xl'"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu, show/hide based on slide state. -->
+        <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-4" class="md:hidden bg-white shadow-lg border-t border-gray-100 absolute w-full left-0 z-40" id="mobile-menu" x-cloak>
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#beranda" @click="mobileMenuOpen = false" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:bg-brandOrange-50 hover:text-brandOrange-500 transition-all duration-200">Beranda</a>
+                <a href="#layanan" @click="mobileMenuOpen = false" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:bg-brandOrange-50 hover:text-brandOrange-500 transition-all duration-200">Produk & Layanan</a>
+                <a href="#simulasi" @click="mobileMenuOpen = false" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:bg-brandOrange-50 hover:text-brandOrange-500 transition-all duration-200">Kalkulator Syariah</a>
+                <a href="#tentang" @click="mobileMenuOpen = false" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:bg-brandOrange-50 hover:text-brandOrange-500 transition-all duration-200">Tentang Kami</a>
+                <a href="#lokasi" @click="mobileMenuOpen = false" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:bg-brandOrange-50 hover:text-brandOrange-500 transition-all duration-200">Cabang</a>
+                <a href="#kontak" @click="mobileMenuOpen = false" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:bg-brandOrange-50 hover:text-brandOrange-500 transition-all duration-200">Hubungi Kami</a>
+                <div class="pt-4 px-3">
+                    <a href="#download" @click="mobileMenuOpen = false" class="w-full flex items-center justify-center py-3 rounded-full text-base font-bold text-white bg-gradient-to-r from-brandOrange-500 to-brandOrange-600 shadow-md">
+                        <i class="fa-solid fa-mobile-screen-button mr-2"></i> Download Oren Syariah
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Slider Section -->
+    <header id="beranda" class="relative overflow-hidden bg-gradient-to-br from-brandGreen-900 via-brandGreen-800 to-brandGreen-950 text-white py-16 lg:py-24" x-data="{ activeSlide: 1, timer: null }" x-init="timer = setInterval(() => { activeSlide = activeSlide === 3 ? 1 : activeSlide + 1 }, 7000)">
+        <!-- Absolute Background geometric pattern overlays -->
+        <div class="absolute inset-0 pattern-bg opacity-10"></div>
+        <div class="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-brandOrange-500 opacity-10 blur-[100px] pointer-events-none"></div>
+        <div class="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-emerald-400 opacity-10 blur-[100px] pointer-events-none"></div>
+
+        <!-- Carousel Elements -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <!-- Slide 1: General Welcome & App -->
+            <div x-show="activeSlide === 1" x-transition:enter="transition ease-out duration-700 transform" x-transition:enter-start="opacity-0 translate-x-12" x-transition:enter-end="opacity-100 translate-x-0" class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[480px]">
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-brandOrange-500/20 text-brandOrange-200 border border-brandOrange-500/30">
+                        <i class="fa-solid fa-star"></i> Terdaftar KemenkopUKM & Amanah
+                    </span>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                        Saatnya <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandOrange-500 to-amber-300">#HidupBerkah</span> Bersama Kopnus Syariah
+                    </h1>
+                    <p class="text-lg text-emerald-100 max-w-2xl mx-auto lg:mx-0">
+                        KSPPS Kopnus Indonesia hadir melayani kebutuhan finansial berbasis koperasi syariah premium untuk ketenteraman dunia dan akhirat.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#download" class="px-8 py-3.5 rounded-full font-bold text-white bg-brandOrange-500 hover:bg-brandOrange-600 shadow-lg shadow-brandOrange-500/20 hover:shadow-brandOrange-500/40 transform hover:-translate-y-0.5 transition-all text-center">
+                            Unduh Oren Syariah <i class="fa-solid fa-arrow-down-long ml-2"></i>
+                        </a>
+                        <a href="#layanan" class="px-8 py-3.5 rounded-full font-bold text-white bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 backdrop-blur-md transition-all text-center">
+                            Pelajari Produk
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-72 sm:w-80 h-[450px] sm:h-[500px]">
+                        <!-- Elegant Smartphone mockup container -->
+                        <div class="absolute inset-0 rounded-[40px] border-4 border-gray-700 bg-gray-950 p-3 shadow-2xl overflow-hidden ring-8 ring-white/5">
+                            <div class="w-full h-full bg-gradient-to-b from-brandGreen-950 to-brandGreen-800 rounded-[30px] p-4 flex flex-col justify-between relative overflow-hidden">
+                                <div class="absolute top-0 right-0 w-32 h-32 rounded-full bg-brandOrange-500/10 blur-xl"></div>
+                                <div class="flex items-center justify-between text-xs text-white/70">
+                                    <span>Oren Syariah</span>
+                                    <i class="fa-solid fa-wifi"></i>
+                                </div>
+                                <div class="space-y-4 my-auto text-center">
+                                    <div class="w-16 h-16 rounded-full bg-brandOrange-500 mx-auto flex items-center justify-center shadow-lg shadow-brandOrange-500/30">
+                                        <span class="text-white text-3xl font-black">O</span>
+                                    </div>
+                                    <h4 class="text-lg font-bold text-white leading-tight">Keuangan Halal Dalam Genggaman</h4>
+                                    <div class="bg-white/5 border border-white/10 rounded-xl p-3 text-left space-y-2">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-[10px] text-white/60">Simpanan Oren</span>
+                                            <span class="text-xs font-bold text-emerald-400">Rp 12.500.000</span>
+                                        </div>
+                                        <div class="w-full bg-white/10 h-1 rounded-full overflow-hidden">
+                                            <div class="bg-brandOrange-500 h-full w-[70%]"></div>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <div class="bg-white/5 hover:bg-white/10 p-2 rounded-lg text-[9px] cursor-pointer"><i class="fa-solid fa-wallet text-brandOrange-400 text-sm block mb-1"></i>Simpan</div>
+                                        <div class="bg-white/5 hover:bg-white/10 p-2 rounded-lg text-[9px] cursor-pointer"><i class="fa-solid fa-hand-holding-dollar text-emerald-400 text-sm block mb-1"></i>Pembiayaan</div>
+                                        <div class="bg-white/5 hover:bg-white/10 p-2 rounded-lg text-[9px] cursor-pointer"><i class="fa-solid fa-chart-line text-amber-400 text-sm block mb-1"></i>Investasi</div>
+                                    </div>
+                                </div>
+                                <div class="text-center text-[10px] text-white/50">#HidupBerkah Berkelanjutan</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Pembiayaan Pensiun -->
+            <div x-show="activeSlide === 2" x-cloak x-transition:enter="transition ease-out duration-700 transform" x-transition:enter-start="opacity-0 translate-x-12" x-transition:enter-end="opacity-100 translate-x-0" class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[480px]">
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-emerald-500/20 text-emerald-200 border border-emerald-500/30">
+                        <i class="fa-solid fa-shield-halal"></i> Aman & Barokah
+                    </span>
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                        Pembiayaan <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-brandOrange-400">Berkah & Adil</span> Oren Syariah
+                    </h2>
+                    <p class="text-lg text-emerald-100 max-w-2xl mx-auto lg:mx-0">
+                        Fasilitas pembiayaan syariah yang amanah, bebas dari riba, dan menggunakan akad murni yang menenteramkan hati untuk segala kebutuhan produktif Anda.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#simulasi" class="px-8 py-3.5 rounded-full font-bold text-white bg-brandOrange-500 hover:bg-brandOrange-600 shadow-lg transition-all text-center">
+                            Simulasi Pembiayaan <i class="fa-solid fa-calculator ml-2"></i>
+                        </a>
+                        <a href="#layanan" class="px-8 py-3.5 rounded-full font-bold text-white bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md transition-all text-center">
+                            Syarat & Ketentuan
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-md bg-white/10 border border-white/15 backdrop-blur-xl p-8 rounded-3xl shadow-xl space-y-6">
+                        <div class="absolute -top-4 -left-4 bg-brandOrange-500 text-white font-bold text-xs py-1 px-3 rounded-full uppercase">Khas Syariah</div>
+                        <h3 class="text-xl font-bold text-white flex items-center gap-2 border-b border-white/10 pb-4">
+                            <i class="fa-solid fa-heart-pulse text-brandOrange-400"></i> Keunggulan Utama Pembiayaan
+                        </h3>
+                        <ul class="space-y-4 text-emerald-50 text-sm">
+                            <li class="flex gap-3"><i class="fa-solid fa-circle-check text-brandOrange-400 mt-1"></i> <span>Akad Murni Syariah (Murabahah, Musyarakah & Qardhul Hasan).</span></li>
+                            <li class="flex gap-3"><i class="fa-solid fa-circle-check text-brandOrange-400 mt-1"></i> <span>Proses pencairan mudah, cepat, dan transparan.</span></li>
+                            <li class="flex gap-3"><i class="fa-solid fa-circle-check text-brandOrange-400 mt-1"></i> <span>Angsuran transparan dan tetap disepakati sejak awal.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Investasi/Simpanan -->
+            <div x-show="activeSlide === 3" x-cloak x-transition:enter="transition ease-out duration-700 transform" x-transition:enter-start="opacity-0 translate-x-12" x-transition:enter-end="opacity-100 translate-x-0" class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[480px]">
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-amber-500/20 text-amber-200 border border-amber-500/30">
+                        <i class="fa-solid fa-scale-balanced"></i> Bagi Hasil yang Adil & Halal
+                    </span>
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                        Investasi Amanah, <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-amber-300">Nisbah Menguntungkan</span>
+                    </h2>
+                    <p class="text-lg text-emerald-100 max-w-2xl mx-auto lg:mx-0">
+                        Pilihan Investasi Oren Syariah yang memberikan ketenangan hati dengan pengelolaan dana profesional sesuai syariat Islam demi kemakmuran umat.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#simulasi" class="px-8 py-3.5 rounded-full font-bold text-white bg-brandOrange-500 hover:bg-brandOrange-600 shadow-lg transition-all text-center">
+                            Mulai Berinvestasi <i class="fa-solid fa-rocket ml-2"></i>
+                        </a>
+                        <a href="#tentang" class="px-8 py-3.5 rounded-full font-bold text-white bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md transition-all text-center">
+                            Profil Pengelola
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="bg-gradient-to-br from-brandGreen-850 to-brandGreen-700 border border-white/10 rounded-3xl p-6 shadow-2xl w-full max-w-md relative overflow-hidden">
+                        <div class="absolute -right-12 -bottom-12 w-32 h-32 rounded-full bg-brandOrange-500/10"></div>
+                        <h4 class="text-xs font-semibold text-brandOrange-400 uppercase tracking-wider mb-2">Simulasi Hasil Keuntungan</h4>
+                        <div class="space-y-4">
+                            <div class="bg-brandGreen-900/60 p-4 rounded-xl border border-white/5">
+                                <p class="text-[11px] text-emerald-200 uppercase">Investasi Syariah Rp 50.000.000</p>
+                                <p class="text-2xl font-extrabold text-white mt-1">Tenor 12 Bulan</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="bg-brandGreen-900/60 p-3 rounded-xl">
+                                    <p class="text-[10px] text-emerald-200">Nisbah Anggota</p>
+                                    <p class="text-base font-bold text-amber-400">Up to 60%</p>
+                                </div>
+                                <div class="bg-brandGreen-900/60 p-3 rounded-xl">
+                                    <p class="text-[10px] text-emerald-200">Indikasi Imbal Jasa</p>
+                                    <p class="text-base font-bold text-emerald-400">Kompetitif</p>
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-center text-emerald-200/60">Sesuai dengan Akad Mudharabah Mutlaqah</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slider Indicators -->
+            <div class="flex justify-center gap-3 mt-12">
+                <button @click="activeSlide = 1" class="w-12 h-2 rounded-full transition-all duration-300" :class="activeSlide === 1 ? 'bg-brandOrange-500' : 'bg-white/30'"></button>
+                <button @click="activeSlide = 2" class="w-12 h-2 rounded-full transition-all duration-300" :class="activeSlide === 2 ? 'bg-brandOrange-500' : 'bg-white/30'"></button>
+                <button @click="activeSlide = 3" class="w-12 h-2 rounded-full transition-all duration-300" :class="activeSlide === 3 ? 'bg-brandOrange-500' : 'bg-white/30'"></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Trust Badges Section -->
+    <section class="bg-white py-8 border-b border-gray-100 shadow-sm relative z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap items-center justify-center gap-8 md:gap-16 lg:justify-between text-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-brandGreen-600 font-bold">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-xs text-gray-400 uppercase font-semibold">Tipe Koperasi</p>
+                        <p class="text-sm font-bold text-gray-800">KSPPS Nasional</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-brandOrange-500 font-bold">
+                        <i class="fa-solid fa-file-signature"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-xs text-gray-400 uppercase font-semibold">Regulator</p>
+                        <p class="text-sm font-bold text-gray-800">KemenkopUKM RI</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-600 font-bold">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-xs text-gray-400 uppercase font-semibold">Prinsip Dasar</p>
+                        <p class="text-sm font-bold text-gray-800">100% Bebas Riba</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 font-bold">
+                        <i class="fa-solid fa-shield-halal"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-xs text-gray-400 uppercase font-semibold">Pengawasan</p>
+                        <p class="text-sm font-bold text-gray-800">Dewan Pengawas Syariah</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Products & Services Section -->
+    <section id="layanan" class="py-20 bg-gray-50 relative">
+        <div class="absolute inset-0 pattern-bg opacity-20 pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
+                <span class="text-brandOrange-500 font-extrabold text-xs tracking-widest uppercase text-center block">Solusi Finansial Amanah</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-brandGreen-800 tracking-tight text-center">
+                    Produk & Layanan Kopnus Syariah
+                </h2>
+                <div class="w-20 h-1.5 bg-brandOrange-500 mx-auto rounded-full"></div>
+                <p class="text-gray-600 leading-relaxed text-center text-sm sm:text-base">
+                    Kami menyediakan ekosistem keuangan halal yang lengkap, terbagi atas produk simpanan harian & investasi via aplikasi, serta pembiayaan bebas riba.
+                </p>
+            </div>
+
+            <!-- Tab Switcher for Products -->
+            <div class="flex justify-center mb-10">
+                <div class="bg-white p-1.5 rounded-full inline-flex border border-gray-200/80 shadow-md">
+                    <button @click="productTab = 'simpanan'" :class="productTab === 'simpanan' ? 'bg-brandGreen-500 text-white font-bold' : 'text-gray-600 hover:text-brandGreen-800'" class="px-6 py-2.5 rounded-full text-xs sm:text-sm transition-all duration-300 flex items-center gap-2">
+                        <i class="fa-solid fa-wallet"></i> Simpanan (via Aplikasi)
+                    </button>
+                    <button @click="productTab = 'pembiayaan'" :class="productTab === 'pembiayaan' ? 'bg-brandGreen-500 text-white font-bold' : 'text-gray-600 hover:text-brandGreen-800'" class="px-6 py-2.5 rounded-full text-xs sm:text-sm transition-all duration-300 flex items-center gap-2">
+                        <i class="fa-solid fa-hand-holding-dollar"></i> Pembiayaan Syariah
+                    </button>
+                </div>
+            </div>
+
+            <!-- 1. SIMPANAN TAB CONTENT -->
+            <div x-show="productTab === 'simpanan'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" x-transition:enter="transition duration-300 transform" x-transition:enter-start="opacity-0 translate-y-4">
+                
+                <!-- Card 1: Tabungan Oren Easy -->
+                <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-lg hover:shadow-2xl hover:shadow-brandGreen-500/10 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-brandOrange-50 text-brandOrange-500 flex items-center justify-center text-xl font-bold group-hover:bg-brandOrange-500 group-hover:text-white transition-all duration-300">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 leading-snug">Tabungan Oren Easy</h3>
+                            <span class="text-[10px] text-brandGreen-600 font-bold bg-brandGreen-50 px-2 py-0.5 rounded-full inline-block mt-1">Akad Wadiah</span>
+                        </div>
+                        <p class="text-gray-600 text-xs leading-relaxed">
+                            Simpanan harian super fleksibel tanpa biaya administrasi bulanan. Sangat cocok untuk transaksi sehari-hari secara aman.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-gray-50 mt-4">
+                        <button @click="modalOpen = true; modalType = 'easy'" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-brandGreen-850 bg-gray-50 hover:bg-brandGreen-800 hover:text-white transition-all duration-200 flex items-center justify-center gap-1">
+                            Detail Produk <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 2: Tabungan Oren Investa -->
+                <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-lg hover:shadow-2xl hover:shadow-brandGreen-500/10 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center text-xl font-bold group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 leading-snug">Tabungan Oren Investa</h3>
+                            <span class="text-[10px] text-brandOrange-600 font-bold bg-brandOrange-50 px-2 py-0.5 rounded-full inline-block mt-1">Akad Mudharabah</span>
+                        </div>
+                        <p class="text-gray-600 text-xs leading-relaxed">
+                            Nikmati pembagian hasil usaha (nisbah) yang adil. Investasikan sisa dana bulanan Anda agar tumbuh berkah di sektor riil.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-gray-50 mt-4">
+                        <button @click="modalOpen = true; modalType = 'investa'" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-brandGreen-850 bg-gray-50 hover:bg-brandGreen-800 hover:text-white transition-all duration-200 flex items-center justify-center gap-1">
+                            Detail Produk <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 3: Tabungan Oren Student -->
+                <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-lg hover:shadow-2xl hover:shadow-brandGreen-500/10 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl font-bold group-hover:bg-teal-500 group-hover:text-white transition-all duration-300">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 leading-snug">Tabungan Oren Student</h3>
+                            <span class="text-[10px] text-brandGreen-600 font-bold bg-brandGreen-50 px-2 py-0.5 rounded-full inline-block mt-1">Akad Wadiah</span>
+                        </div>
+                        <p class="text-gray-600 text-xs leading-relaxed">
+                            Simpanan khusus untuk masa depan anak/siswa dengan setoran pembukaan yang sangat rendah demi mendidik kebiasaan menabung sejak dini.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-gray-50 mt-4">
+                        <button @click="modalOpen = true; modalType = 'student'" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-brandGreen-850 bg-gray-50 hover:bg-brandGreen-800 hover:text-white transition-all duration-200 flex items-center justify-center gap-1">
+                            Detail Produk <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 4: Deposito Oren Berjangka -->
+                <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-lg hover:shadow-2xl hover:shadow-brandGreen-50/10 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
+                            <i class="fa-solid fa-vault"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 leading-snug">Deposito Berjangka</h3>
+                            <span class="text-[10px] text-brandOrange-600 font-bold bg-brandOrange-50 px-2 py-0.5 rounded-full inline-block mt-1">Akad Mudharabah</span>
+                        </div>
+                        <p class="text-gray-600 text-xs leading-relaxed">
+                            Simpanan berjangka dengan pilihan jangka waktu fleksibel. Berikan imbal hasil investasi bulanan maksimal yang terjamin dan transparan.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-gray-50 mt-4">
+                        <button @click="modalOpen = true; modalType = 'deposito'" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-brandGreen-850 bg-gray-50 hover:bg-brandGreen-800 hover:text-white transition-all duration-200 flex items-center justify-center gap-1">
+                            Detail Produk <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 2. PEMBIAYAAN TAB CONTENT -->
+            <div x-show="productTab === 'pembiayaan'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" x-cloak x-transition:enter="transition duration-300 transform" x-transition:enter-start="opacity-0 translate-y-4">
+                
+                <!-- Card 5: Oren Mulus -->
+                <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-lg hover:shadow-2xl hover:shadow-brandGreen-50/10 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-brandGreen-50 text-brandGreen-600 flex items-center justify-center text-xl font-bold group-hover:bg-brandGreen-500 group-hover:text-white transition-all duration-300">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 leading-snug">Oren Mulus</h3>
+                            <span class="text-[10px] text-amber-600 font-bold bg-amber-50 px-2 py-0.5 rounded-full inline-block mt-1">Akad Murabahah</span>
+                        </div>
+                        <p class="text-gray-600 text-xs leading-relaxed">
+                            Pembiayaan konsumtif serbaguna (motor, renovasi rumah, elektronik) berbasis transaksi jual beli murni dengan margin tetap disepakati di awal.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-gray-50 mt-4">
+                        <button @click="modalOpen = true; modalType = 'mulus'" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-brandGreen-850 bg-gray-50 hover:bg-brandGreen-800 hover:text-white transition-all duration-200 flex items-center justify-center gap-1">
+                            Detail Produk <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 6: Oren Usaha -->
+                <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-lg hover:shadow-2xl hover:shadow-brandGreen-50/10 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-650 flex items-center justify-center text-xl font-bold group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 leading-snug">Oren Usaha</h3>
+                            <span class="text-[10px] text-brandOrange-600 font-bold bg-brandOrange-50 px-2 py-0.5 rounded-full inline-block mt-1">Akad Musyarakah</span>
+                        </div>
+                        <p class="text-gray-600 text-xs leading-relaxed">
+                            Pembiayaan modal kerja atau investasi bisnis bersama dengan sistem bagi hasil adil untuk mendukung pertumbuhan UMKM secara halal.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-gray-50 mt-4">
+                        <button @click="modalOpen = true; modalType = 'usaha'" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-brandGreen-850 bg-gray-50 hover:bg-brandGreen-800 hover:text-white transition-all duration-200 flex items-center justify-center gap-1">
+                            Detail Produk <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 7: Oren Darurat -->
+                <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-lg hover:shadow-2xl hover:shadow-brandGreen-50/10 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl font-bold group-hover:bg-rose-500 group-hover:text-white transition-all duration-300">
+                            <i class="fa-solid fa-kit-medical"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 leading-snug">Oren Darurat</h3>
+                            <span class="text-[10px] text-teal-600 font-bold bg-teal-50 px-2 py-0.5 rounded-full inline-block mt-1">Akad Qardhul Hasan</span>
+                        </div>
+                        <p class="text-gray-600 text-xs leading-relaxed">
+                            Bantuan pinjaman dana kebajikan darurat tanpa tambahan biaya atau margin apa pun. Solusi instan untuk mengatasi kondisi medis/mendesak.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-gray-50 mt-4">
+                        <button @click="modalOpen = true; modalType = 'darurat'" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-brandGreen-850 bg-gray-50 hover:bg-brandGreen-800 hover:text-white transition-all duration-200 flex items-center justify-center gap-1">
+                            Detail Produk <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 8: Oren Pendidikan -->
+                <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-lg hover:shadow-2xl hover:shadow-brandGreen-50/10 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl font-bold group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 leading-snug">Oren Pendidikan</h3>
+                            <span class="text-[10px] text-teal-600 font-bold bg-teal-50 px-2 py-0.5 rounded-full inline-block mt-1">Akad Qardhul Hasan</span>
+                        </div>
+                        <p class="text-gray-600 text-xs leading-relaxed">
+                            Dana pembiayaan khusus uang sekolah/kuliah bebas dari riba dan bunga. Ringankan beban finansial studi putra-putri berprestasi Anda.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-gray-50 mt-4">
+                        <button @click="modalOpen = true; modalType = 'pendidikan'" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-brandGreen-850 bg-gray-50 hover:bg-brandGreen-800 hover:text-white transition-all duration-200 flex items-center justify-center gap-1">
+                            Detail Produk <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Sharia Calculator Section -->
+    <section id="simulasi" class="py-20 bg-brandGreen-900 text-white relative overflow-hidden" x-data="{
+        calcTab: 'investasi',
+        invAmount: 25000000,
+        invTenor: 12,
+        get invProfitRate() {
+            if (this.invTenor == 3) return 0.052;
+            if (this.invTenor == 6) return 0.056;
+            if (this.invTenor == 12) return 0.062;
+            return 0.065;
+        },
+        get estimatedInvProfit() {
+            return Math.round((this.invAmount * this.invProfitRate) * (this.invTenor / 12));
+        },
+        get totalInvPayout() {
+            return parseInt(this.invAmount) + parseInt(this.estimatedInvProfit);
+        },
+        
+        // Pension Financing Calculator
+        pensionAmount: 50000000,
+        pensionTenor: 36,
+        marginRate: 0.085, // 8.5% annual margin equivalent
+        get totalFinancingDebt() {
+            let totalMargin = this.pensionAmount * this.marginRate * (this.pensionTenor / 12);
+            return Math.round(parseInt(this.pensionAmount) + totalMargin);
+        },
+        get monthlyInstallment() {
+            return Math.round(this.totalFinancingDebt / this.pensionTenor);
+        },
+
+        formatIDR(value) {
+            return 'Rp ' + new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(value);
+        }
+    }">
+        <div class="absolute inset-0 pattern-bg opacity-5 pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
+                <span class="text-brandOrange-400 font-extrabold text-xs tracking-widest uppercase text-center block">Simulasi Mudah</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight text-center">Kalkulator Finansial Syariah</h2>
+                <p class="text-emerald-100/80 text-center">Hitung estimasi bagi hasil investasi atau cicilan pembiayaan Anda secara mudah dan transparan.</p>
+            </div>
+
+            <!-- Tab Buttons -->
+            <div class="flex justify-center mb-8">
+                <div class="bg-brandGreen-950 p-1.5 rounded-full inline-flex border border-white/10">
+                    <button @click="calcTab = 'investasi'" :class="calcTab === 'investasi' ? 'bg-brandOrange-500 text-white font-bold' : 'text-emerald-200 hover:text-white'" class="px-6 py-2.5 rounded-full text-xs sm:text-sm transition-all duration-300 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-line"></i> Simulasi Investasi Oren
+                    </button>
+                    <button @click="calcTab = 'pensiun'" :class="calcTab === 'pensiun' ? 'bg-brandOrange-500 text-white font-bold' : 'text-emerald-200 hover:text-white'" class="px-6 py-2.5 rounded-full text-xs sm:text-sm transition-all duration-300 flex items-center gap-2">
+                        <i class="fa-solid fa-hand-holding-dollar"></i> Simulasi Pembiayaan Oren
+                    </button>
+                </div>
+            </div>
+
+            <!-- Calculator Body Card -->
+            <div class="bg-brandGreen-850 border border-white/10 rounded-3xl p-6 sm:p-10 shadow-2xl max-w-4xl mx-auto">
+                
+                <!-- Tab: Investasi -->
+                <div x-show="calcTab === 'investasi'" class="grid grid-cols-1 md:grid-cols-12 gap-8" x-transition:enter="transition duration-300">
+                    <div class="md:col-span-7 space-y-6">
+                        <!-- Slider Amount -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-sm font-semibold text-emerald-100">Jumlah Dana Investasi</label>
+                                <span class="text-lg font-black text-brandOrange-400" x-text="formatIDR(invAmount)"></span>
+                            </div>
+                            <input type="range" min="1000000" max="500000000" step="1000000" x-model="invAmount" class="w-full h-2 bg-brandGreen-950 rounded-lg appearance-none cursor-pointer accent-brandOrange-500 focus:outline-none">
+                            <div class="flex justify-between text-[10px] text-emerald-200/50 mt-1">
+                                <span>Rp 1 Juta</span>
+                                <span>Rp 500 Juta</span>
+                            </div>
+                        </div>
+
+                        <!-- Tenur selection -->
+                        <div>
+                            <label class="text-sm font-semibold text-emerald-100 block mb-3">Jangka Waktu (Tenor)</label>
+                            <div class="grid grid-cols-4 gap-2">
+                                <button @click="invTenor = 3" :class="invTenor == 3 ? 'bg-brandOrange-500 border-brandOrange-500 text-white font-bold' : 'bg-brandGreen-900 border-white/10 text-emerald-200 hover:bg-brandGreen-800'" class="py-2.5 rounded-xl border text-xs sm:text-sm transition-all">3 Bulan</button>
+                                <button @click="invTenor = 6" :class="invTenor == 6 ? 'bg-brandOrange-500 border-brandOrange-500 text-white font-bold' : 'bg-brandGreen-900 border-white/10 text-emerald-200 hover:bg-brandGreen-800'" class="py-2.5 rounded-xl border text-xs sm:text-sm transition-all">6 Bulan</button>
+                                <button @click="invTenor = 12" :class="invTenor == 12 ? 'bg-brandOrange-500 border-brandOrange-500 text-white font-bold' : 'bg-brandGreen-900 border-white/10 text-emerald-200 hover:bg-brandGreen-800'" class="py-2.5 rounded-xl border text-xs sm:text-sm transition-all">12 Bulan</button>
+                                <button @click="invTenor = 24" :class="invTenor == 24 ? 'bg-brandOrange-500 border-brandOrange-500 text-white font-bold' : 'bg-brandGreen-900 border-white/10 text-emerald-200 hover:bg-brandGreen-800'" class="py-2.5 rounded-xl border text-xs sm:text-sm transition-all">24 Bulan</button>
+                            </div>
+                        </div>
+
+                        <!-- Nisbah Info -->
+                        <div class="bg-brandGreen-900/50 p-4 rounded-2xl border border-white/5 flex gap-4 items-center">
+                            <div class="w-10 h-10 rounded-full bg-brandOrange-500/10 text-brandOrange-400 flex items-center justify-center text-lg"><i class="fa-solid fa-scale-balanced"></i></div>
+                            <div>
+                                <p class="text-xs font-semibold text-emerald-100">Akad Mudharabah Mutlaqah</p>
+                                <p class="text-[11px] text-emerald-200/70">Pembagian hasil usaha dilakukan secara adil sesuai nisbah kontrak.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Result Card -->
+                    <div class="md:col-span-5 bg-brandGreen-950/80 border border-white/10 rounded-2xl p-6 flex flex-col justify-between space-y-6">
+                        <div class="space-y-4">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-brandOrange-400">Hasil Estimasi Investasi</h4>
+                            <div class="border-b border-white/10 pb-4">
+                                <span class="text-[10px] text-emerald-300 block uppercase">Indikasi Bagi Hasil p.a.</span>
+                                <span class="text-xl font-bold text-white" x-text="(invProfitRate * 100).toFixed(1) + '%'"></span>
+                            </div>
+                            <div class="border-b border-white/10 pb-4">
+                                <span class="text-[10px] text-emerald-300 block uppercase">Estimasi Hasil Keuntungan</span>
+                                <span class="text-xl font-black text-emerald-400" x-text="formatIDR(estimatedInvProfit)"></span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-emerald-300 block uppercase">Total Dana Saat Jatuh Tempo</span>
+                                <span class="text-2xl font-black text-white" x-text="formatIDR(totalInvPayout)"></span>
+                            </div>
+                        </div>
+                        <p class="text-[9px] text-emerald-200/50 leading-relaxed italic">*Hasil simulasi ini hanya sebagai estimasi / ilustrasi berdasarkan riwayat bagi hasil sebelumnya, nilai aktual dapat disesuaikan dengan realisasi akad mudharabah.</p>
+                    </div>
+                </div>
+
+                <!-- Tab: Pembiayaan -->
+                <div x-show="calcTab === 'pansiun'" class="grid grid-cols-1 md:grid-cols-12 gap-8" x-cloak x-transition:enter="transition duration-300">
+                    <div class="md:col-span-7 space-y-6">
+                        <!-- Slider Amount -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-sm font-semibold text-emerald-100">Jumlah Pembiayaan Diajukan</label>
+                                <span class="text-lg font-black text-brandOrange-400" x-text="formatIDR(pensionAmount)"></span>
+                            </div>
+                            <input type="range" min="10000000" max="300000000" step="5000000" x-model="pensionAmount" class="w-full h-2 bg-brandGreen-950 rounded-lg appearance-none cursor-pointer accent-brandOrange-500 focus:outline-none">
+                            <div class="flex justify-between text-[10px] text-emerald-200/50 mt-1">
+                                <span>Rp 10 Juta</span>
+                                <span>Rp 300 Juta</span>
+                            </div>
+                        </div>
+
+                        <!-- Tenur selection -->
+                        <div>
+                            <label class="text-sm font-semibold text-emerald-100 block mb-3">Jangka Waktu Angsuran (Tenor)</label>
+                            <div class="grid grid-cols-4 gap-2">
+                                <button @click="pensionTenor = 12" :class="pensionTenor == 12 ? 'bg-brandOrange-500 border-brandOrange-500 text-white font-bold' : 'bg-brandGreen-900 border-white/10 text-emerald-200 hover:bg-brandGreen-800'" class="py-2.5 rounded-xl border text-xs sm:text-sm transition-all">12 Bulan</button>
+                                <button @click="pensionTenor = 36" :class="pensionTenor == 36 ? 'bg-brandOrange-500 border-brandOrange-500 text-white font-bold' : 'bg-brandGreen-900 border-white/10 text-emerald-200 hover:bg-brandGreen-800'" class="py-2.5 rounded-xl border text-xs sm:text-sm transition-all">36 Bulan</button>
+                                <button @click="pensionTenor = 60" :class="pensionTenor == 60 ? 'bg-brandOrange-500 border-brandOrange-500 text-white font-bold' : 'bg-brandGreen-900 border-white/10 text-emerald-200 hover:bg-brandGreen-800'" class="py-2.5 rounded-xl border text-xs sm:text-sm transition-all">60 Bulan</button>
+                                <button @click="pensionTenor = 96" :class="pensionTenor == 96 ? 'bg-brandOrange-500 border-brandOrange-500 text-white font-bold' : 'bg-brandGreen-900 border-white/10 text-emerald-200 hover:bg-brandGreen-800'" class="py-2.5 rounded-xl border text-xs sm:text-sm transition-all">96 Bulan</button>
+                            </div>
+                        </div>
+
+                        <!-- Syariah Assurance -->
+                        <div class="bg-brandGreen-900/50 p-4 rounded-2xl border border-white/5 flex gap-4 items-center">
+                            <div class="w-10 h-10 rounded-full bg-brandOrange-500/10 text-brandOrange-400 flex items-center justify-center text-lg"><i class="fa-solid fa-handshake"></i></div>
+                            <div>
+                                <p class="text-xs font-semibold text-emerald-100">Prinsip Keadilan Transparan</p>
+                                <p class="text-[11px] text-emerald-200/70">Margin keuntungan disepakati bersama sejak awal akad tanpa ada denda atau penalti bunga fluktuatif.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Result Card -->
+                    <div class="md:col-span-5 bg-brandGreen-950/80 border border-white/10 rounded-2xl p-6 flex flex-col justify-between space-y-6">
+                        <div class="space-y-4">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-brandOrange-400">Hasil Simulasi Pembiayaan</h4>
+                            <div class="border-b border-white/10 pb-4">
+                                <span class="text-[10px] text-emerald-300 block uppercase">Estimasi Margin p.a.</span>
+                                <span class="text-xl font-bold text-white">8.5% <span class="text-[10px] font-normal text-emerald-200">(Setara)</span></span>
+                            </div>
+                            <div class="border-b border-white/10 pb-4">
+                                <span class="text-[10px] text-emerald-300 block uppercase">Total Utang Akad</span>
+                                <span class="text-xl font-bold text-white" x-text="formatIDR(totalFinancingDebt)"></span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-emerald-300 block uppercase">Angsuran Bulanan</span>
+                                <span class="text-2xl font-black text-emerald-400" x-text="formatIDR(monthlyInstallment)"></span>
+                            </div>
+                        </div>
+                        <p class="text-[9px] text-emerald-200/50 leading-relaxed italic">*Simulasi pembiayaan ini bersifat estimasi awal. Persetujuan akhir bergantung pada kelayakan kredit & dokumen pendukung saat verifikasi.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About Company Profile Section -->
+    <section id="tentang" class="py-20 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Media Section -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative z-10 rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                        <div class="bg-gradient-to-br from-brandGreen-800 to-brandGreen-950 p-8 text-white min-h-[350px] flex flex-col justify-between relative">
+                            <div class="absolute inset-0 pattern-bg opacity-15"></div>
+                            <span class="text-xs uppercase font-extrabold tracking-widest text-brandOrange-400 bg-brandOrange-500/10 px-3 py-1 rounded-full self-start">KSPPS KOPNUS INDONESIA</span>
+                            <div class="space-y-4">
+                                <p class="text-xl font-bold leading-snug">Menjadi Arus Baru Pemberdayaan Ekonomi Syariah Nasional</p>
+                                <p class="text-xs text-emerald-100">Kopnus Syariah dibentuk sebagai wadah kontribusi keuangan berlandaskan prinsip kemitraan, kejujuran, keadilan, dan kesejahteraan bersama.</p>
+                            </div>
+                            <div class="flex items-center gap-4 border-t border-white/10 pt-4 mt-4">
+                                <div class="w-10 h-10 rounded-full bg-brandOrange-500 flex items-center justify-center font-black">K</div>
+                                <div>
+                                    <p class="text-xs font-bold text-white">Heru Agus Wuryanto</p>
+                                    <p class="text-[9px] text-emerald-200">Ketua Kopnus Syariah</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Decorative back elements -->
+                    <div class="absolute -bottom-6 -right-6 w-full h-full rounded-3xl bg-brandOrange-100 -z-0"></div>
+                </div>
+
+                <!-- Right Copywriting Section -->
+                <div class="lg:col-span-7 space-y-6">
+                    <span class="text-brandOrange-500 font-extrabold text-xs tracking-widest uppercase block">Mengenal Lebih Dekat</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-brandGreen-800 leading-tight">Mewujudkan Ekosistem Halal Madani Bersama Anggota</h2>
+                    <p class="text-gray-600 leading-relaxed">
+                        KSPPS Kopnus Indonesia (Kopnus Syariah) berdiri sebagai garda terdepan institusi koperasi simpan pinjam pembiayaan syariah berskala nasional. Kami bertekad mewujudkan pelayanan keuangan yang berintegritas tinggi serta sejalan dengan tuntunan syariat Islam demi keberkahan umat.
+                    </p>
+
+                    <!-- Features/Benefits Checklist -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-brandGreen-50 text-brandGreen-600 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-star"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">Aman & Terpercaya</h4>
+                                <p class="text-xs text-gray-500">Izin resmi KemenkopUKM & diawasi ketat oleh DPS.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-brandGreen-50 text-brandGreen-600 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-mobile-screen"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">Oren Syariah App</h4>
+                                <p class="text-xs text-gray-500">Kemudahan transaksi finansial berbasis aplikasi canggih.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-brandGreen-50 text-brandGreen-600 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-gift"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">Berkah Kebajikan</h4>
+                                <p class="text-xs text-gray-500">Penyaluran sebagian bagi hasil ke panti asuhan & dhuafa.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-brandGreen-50 text-brandGreen-600 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-users"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">Kekeluargaan Koperasi</h4>
+                                <p class="text-xs text-gray-500">Menjunjung tinggi asas kebersamaan seluruh anggota.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Branch Locator Widget Section -->
+    <section id="lokasi" class="py-20 bg-gray-50 relative" x-data="{
+        selectedCity: 'bandung',
+        branches: {
+            jakarta: { name: 'Kantor Pusat Jakarta', address: 'Jl. Letjen S. Parman No.12, Slipi, Kec. Palmerah, Kota Jakarta Barat, DKI Jakarta 11480', phone: '(021) 1500099', maps: '#' },
+            bandung: { name: 'Kantor Cabang Bandung', address: 'Kantor Pos Bandung, Jl. Asia Afrika No.49, Braga, Kec. Sumur Bandung, Kota Bandung, Jawa Barat 40111', phone: '(022) 1500099', maps: '#' },
+            depok: { name: 'Kantor Layanan Depok', address: 'Jl. Margonda Raya No. 10, Depok, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16431', phone: '(021) 1500099', maps: '#' },
+            tangerang: { name: 'Kantor Cabang Tangerang Selatan', address: 'Ruko Versailles, Blok FB No. 8, BSD City, Kec. Serpong, Tangerang Selatan, Banten 15318', phone: '(021) 1500099', maps: '#' },
+            aceh: { name: 'Kantor Layanan Banda Aceh', address: 'Kantor Pos Banda Aceh, Jl. Kuta Alam, Kec. Kuta Alam, Kota Banda Aceh, Aceh 23121', phone: '(0651) 1500099', maps: '#' },
+            pangkalpinang: { name: 'Kantor Layanan Pangkalpinang', address: 'Jl. Jenderal Sudirman No. 25, Pangkalpinang, Kepulauan Bangka Belitung 33131', phone: '(0717) 1500099', maps: '#' }
+        }
+    }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
+                <span class="text-brandOrange-500 font-extrabold text-xs tracking-widest uppercase text-center block">Jejaring Kantor Cabang</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-brandGreen-800 tracking-tight text-center">Cari Kantor Layanan Kami</h2>
+                <div class="w-20 h-1.5 bg-brandOrange-500 mx-auto rounded-full"></div>
+                <p class="text-gray-600 text-center text-sm sm:text-base">Kopnus Syariah bekerjasama strategis untuk memberikan cakupan layanan terbaik bagi para anggota di seluruh Indonesia.</p>
+            </div>
+
+            <!-- Branch widget wrapper -->
+            <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-gray-100 grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-5xl mx-auto">
+                
+                <!-- City Selector Column -->
+                <div class="lg:col-span-5 space-y-3">
+                    <p class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Pilih Wilayah Cabang</p>
+                    
+                    <button @click="selectedCity = 'jakarta'" :class="selectedCity === 'jakarta' ? 'border-brandOrange-500 bg-brandOrange-50 text-brandOrange-600 font-bold' : 'border-gray-100 hover:bg-gray-50 text-gray-700'" class="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-200 text-left text-sm">
+                        <span><i class="fa-solid fa-location-dot mr-2"></i> DKI Jakarta (Pusat)</span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                    <button @click="selectedCity = 'bandung'" :class="selectedCity === 'bandung' ? 'border-brandOrange-500 bg-brandOrange-50 text-brandOrange-600 font-bold' : 'border-gray-100 hover:bg-gray-50 text-gray-700'" class="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-200 text-left text-sm">
+                        <span><i class="fa-solid fa-location-dot mr-2"></i> Bandung, Jawa Barat</span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                    <button @click="selectedCity = 'depok'" :class="selectedCity === 'depok' ? 'border-brandOrange-500 bg-brandOrange-50 text-brandOrange-600 font-bold' : 'border-gray-100 hover:bg-gray-50 text-gray-700'" class="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-200 text-left text-sm">
+                        <span><i class="fa-solid fa-location-dot mr-2"></i> Depok</span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                    <button @click="selectedCity = 'tangerang'" :class="selectedCity === 'tangerang' ? 'border-brandOrange-500 bg-brandOrange-50 text-brandOrange-600 font-bold' : 'border-gray-100 hover:bg-gray-50 text-gray-700'" class="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-200 text-left text-sm">
+                        <span><i class="fa-solid fa-location-dot mr-2"></i> Tangerang Selatan</span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                    <button @click="selectedCity = 'aceh'" :class="selectedCity === 'aceh' ? 'border-brandOrange-500 bg-brandOrange-50 text-brandOrange-600 font-bold' : 'border-gray-100 hover:bg-gray-50 text-gray-700'" class="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-200 text-left text-sm">
+                        <span><i class="fa-solid fa-location-dot mr-2"></i> Banda Aceh</span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                    <button @click="selectedCity = 'pangkalpinang'" :class="selectedCity === 'pangkalpinang' ? 'border-brandOrange-500 bg-brandOrange-50 text-brandOrange-600 font-bold' : 'border-gray-100 hover:bg-gray-50 text-gray-700'" class="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-200 text-left text-sm">
+                        <span><i class="fa-solid fa-location-dot mr-2"></i> Pangkalpinang</span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Info Card Column -->
+                <div class="lg:col-span-7 bg-gray-50 rounded-2xl p-6 flex flex-col justify-between border border-gray-100">
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-brandGreen-100 text-brandGreen-600 flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-house-chimney-window"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-gray-800 text-lg leading-tight" x-text="branches[selectedCity].name"></h3>
+                                <p class="text-xs text-brandGreen-600 font-semibold"><i class="fa-solid fa-check-double"></i> Terdaftar & Resmi</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 text-sm text-gray-600">
+                            <div>
+                                <p class="text-xs font-bold text-gray-400 uppercase">Alamat Lengkap</p>
+                                <p class="mt-1 font-medium" x-text="branches[selectedCity].address"></p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 border-t border-gray-200/60 pt-4">
+                                <div>
+                                    <p class="text-xs font-bold text-gray-400 uppercase">Hubungi Call Center</p>
+                                    <p class="mt-1 font-extrabold text-gray-800" x-text="branches[selectedCity].phone"></p>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-bold text-gray-400 uppercase">Jam Operasional</p>
+                                    <p class="mt-1 font-medium text-gray-800">08:00 - 16:00 WIB</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Simulated Map visual representation -->
+                    <div class="mt-8 bg-brandGreen-950/5 border border-brandGreen-950/10 rounded-xl p-4 flex items-center justify-between text-xs font-semibold text-brandGreen-800">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-route text-brandOrange-500 text-sm"></i> Petunjuk Rute / Navigasi Maps</span>
+                        <a href="https://maps.google.com" target="_blank" class="px-4 py-2 bg-brandGreen-800 hover:bg-brandGreen-900 text-white rounded-lg transition-colors flex items-center gap-1">
+                            Buka Maps <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- App CTA Section -->
+    <section id="download" class="py-20 bg-gradient-to-tr from-brandGreen-900 via-brandGreen-800 to-emerald-950 text-white relative overflow-hidden">
+        <div class="absolute inset-0 pattern-bg opacity-5 pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-brandOrange-500/20 text-brandOrange-200 border border-brandOrange-500/30">
+                        <i class="fa-solid fa-mobile-screen"></i> Aplikasi Keuangan Syariah
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">Unduh Aplikasi <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandOrange-500 to-amber-300">Oren Syariah</span> Sekarang!</h2>
+                    <p class="text-emerald-100 max-w-2xl mx-auto lg:mx-0 text-sm sm:text-base leading-relaxed">
+                        Nikmati kemudahan membuka rekening simpanan harian secara digital, mengajukan fasilitas simpanan berjangka (investasi), hingga memantau pembiayaan syariah Anda dengan aman, cepat, dan transparan dalam satu genggaman aplikasi mobile.
+                    </p>
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+                        <a href="https://play.google.com" target="_blank" class="flex items-center gap-3 px-6 py-3 bg-white/10 hover:bg-white/15 border border-white/20 hover:border-white/30 backdrop-blur-md rounded-2xl transition-all">
+                            <i class="fa-brands fa-google-play text-2xl text-amber-400"></i>
+                            <div class="text-left">
+                                <p class="text-[9px] text-emerald-200 uppercase font-semibold">Dapatkan di</p>
+                                <p class="text-xs font-bold">Google Play Store</p>
+                            </div>
+                        </a>
+                        <a href="https://apple.com" target="_blank" class="flex items-center gap-3 px-6 py-3 bg-white/10 hover:bg-white/15 border border-white/20 hover:border-white/30 backdrop-blur-md rounded-2xl transition-all">
+                            <i class="fa-brands fa-apple text-2xl text-white"></i>
+                            <div class="text-left">
+                                <p class="text-[9px] text-emerald-200 uppercase font-semibold">Unduh melalui</p>
+                                <p class="text-xs font-bold">App Store iOS</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex justify-center">
+                    <!-- Glassmorphism Mockup Box -->
+                    <div class="bg-white/10 border border-white/10 p-6 sm:p-8 rounded-3xl backdrop-blur-md max-w-sm w-full text-center space-y-4">
+                        <i class="fa-solid fa-circle-nodes text-brandOrange-400 text-3xl"></i>
+                        <h4 class="text-lg font-bold">Gabung Jadi Anggota Oren Partner</h4>
+                        <p class="text-xs text-emerald-100">Bantu keluarga, rekan, dan sesama anggota koperasi mendapatkan solusi finansial amanah bebas riba dan dapatkan insentif kebaikan.</p>
+                        <div class="pt-4 border-t border-white/10">
+                            <button @click="modalOpen = true; modalType = 'partner'" class="w-full py-3 bg-brandOrange-500 hover:bg-brandOrange-600 font-bold rounded-xl text-xs sm:text-sm tracking-wide transition-all shadow-md">
+                                Registrasi Oren Partner
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-white" x-data="{ faqOpen: 1 }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-brandOrange-500 font-extrabold text-xs tracking-widest uppercase text-center block">Tanya Jawab Populer</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-brandGreen-800 tracking-tight text-center">F.A.Q Seputar Kopnus Syariah</h2>
+                <div class="w-20 h-1.5 bg-brandOrange-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="max-w-3xl mx-auto space-y-4">
+                
+                <!-- FAQ item 1 -->
+                <div class="border border-gray-200 rounded-2xl overflow-hidden transition-all" :class="faqOpen === 1 ? 'shadow-md border-brandGreen-500/20' : 'hover:border-gray-300'">
+                    <button @click="faqOpen = faqOpen === 1 ? 0 : 1" class="w-full flex items-center justify-between p-5 bg-white text-left font-bold text-gray-800 focus:outline-none transition-colors" :class="faqOpen === 1 ? 'text-brandGreen-800' : ''">
+                        <span>Apakah KSPPS Kopnus Indonesia terdaftar secara resmi?</span>
+                        <i class="fa-solid text-xs" :class="faqOpen === 1 ? 'fa-minus text-brandOrange-500' : 'fa-plus text-gray-400'"></i>
+                    </button>
+                    <div x-show="faqOpen === 1" x-transition class="p-5 bg-gray-50/60 border-t border-gray-100 text-sm text-gray-600 leading-relaxed">
+                        Ya. KSPPS Kopnus Indonesia berdiri berdasarkan Akta Pendirian Koperasi resmi yang disahkan oleh Kementerian Koperasi, Usaha Kecil dan Menengah Republik Indonesia dengan Nomor Registrasi resmi. Semua kegiatan operasional tunduk pada ketentuan perkoperasian nasional serta diawasi oleh Dewan Pengawas Syariah.
+                    </div>
+                </div>
+
+                <!-- FAQ item 2 -->
+                <div class="border border-gray-200 rounded-2xl overflow-hidden transition-all" :class="faqOpen === 2 ? 'shadow-md border-brandGreen-500/20' : 'hover:border-gray-300'">
+                    <button @click="faqOpen = faqOpen === 2 ? 0 : 2" class="w-full flex items-center justify-between p-5 bg-white text-left font-bold text-gray-800 focus:outline-none transition-colors" :class="faqOpen === 2 ? 'text-brandGreen-800' : ''">
+                        <span>Apa bedanya Tabungan Oren Easy dan Oren Investa?</span>
+                        <i class="fa-solid text-xs" :class="faqOpen === 2 ? 'fa-minus text-brandOrange-500' : 'fa-plus text-gray-400'"></i>
+                    </button>
+                    <div x-show="faqOpen === 2" x-transition class="p-5 bg-gray-50/60 border-t border-gray-100 text-sm text-gray-600 leading-relaxed">
+                        Tabungan Oren Easy menggunakan Akad Wadiah (titipan), sehingga bersifat likuid tanpa biaya admin dan tidak memberikan imbal hasil terikat. Sedangkan Tabungan Oren Investa menggunakan Akad Mudharabah (bagi hasil), di mana dana Anda dikelola secara produktif untuk kemudian dibagihasilkan setiap bulannya secara adil.
+                    </div>
+                </div>
+
+                <!-- FAQ item 3 -->
+                <div class="border border-gray-200 rounded-2xl overflow-hidden transition-all" :class="faqOpen === 3 ? 'shadow-md border-brandGreen-500/20' : 'hover:border-gray-300'">
+                    <button @click="faqOpen = faqOpen === 3 ? 0 : 3" class="w-full flex items-center justify-between p-5 bg-white text-left font-bold text-gray-800 focus:outline-none transition-colors" :class="faqOpen === 3 ? 'text-brandGreen-800' : ''">
+                        <span>Bagaimana cara kerja Pembiayaan Qardhul Hasan di Kopnus Syariah?</span>
+                        <i class="fa-solid text-xs" :class="faqOpen === 3 ? 'fa-minus text-brandOrange-500' : 'fa-plus text-gray-400'"></i>
+                    </button>
+                    <div x-show="faqOpen === 3" x-transition class="p-5 bg-gray-50/60 border-t border-gray-100 text-sm text-gray-600 leading-relaxed">
+                        Pembiayaan Qardhul Hasan (seperti Oren Darurat & Oren Pendidikan) merupakan produk kebajikan murni. Kopnus Syariah meminjamkan dana tanpa mengambil margin keuntungan, bunga, atau denda apa pun. Anggota hanya diwajibkan mengembalikan pokok pinjaman sesuai dengan tenor cicilan yang disepakati bersama.
+                    </div>
+                </div>
+
+                <!-- FAQ item 4 -->
+                <div class="border border-gray-200 rounded-2xl overflow-hidden transition-all" :class="faqOpen === 4 ? 'shadow-md border-brandGreen-500/20' : 'hover:border-gray-300'">
+                    <button @click="faqOpen = faqOpen === 4 ? 0 : 4" class="w-full flex items-center justify-between p-5 bg-white text-left font-bold text-gray-800 focus:outline-none transition-colors" :class="faqOpen === 4 ? 'text-brandGreen-800' : ''">
+                        <span>Apakah pengajuan pembiayaan konsumtif oren harus ke kantor pos?</span>
+                        <i class="fa-solid text-xs" :class="faqOpen === 4 ? 'fa-minus text-brandOrange-500' : 'fa-plus text-gray-400'"></i>
+                    </button>
+                    <div x-show="faqOpen === 4" x-transition class="p-5 bg-gray-50/60 border-t border-gray-100 text-sm text-gray-600 leading-relaxed">
+                        Anda dapat memulai pengajuan secara praktis dari rumah via form kontak website atau aplikasi ponsel Oren Syariah. Namun untuk verifikasi tanda tangan basah dan penyerahan dokumen fidusia tertentu, Anda dapat mendatangi jaringan kantor layanan kami atau gerai kantor pos mitra kerja sama terdekat.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section id="kontak" class="py-20 bg-gray-50 relative">
+        <div class="absolute inset-0 pattern-bg opacity-20 pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-5xl mx-auto bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100">
+                
+                <!-- Contact info panel -->
+                <div class="lg:col-span-5 bg-gradient-to-br from-brandGreen-800 to-brandGreen-950 p-8 sm:p-10 text-white flex flex-col justify-between relative">
+                    <div class="absolute inset-0 pattern-bg opacity-15"></div>
+                    
+                    <div class="space-y-6">
+                        <span class="text-xs font-extrabold uppercase tracking-widest text-brandOrange-400 bg-brandOrange-500/20 px-3 py-1 rounded-full inline-block">Hubungi Kami</span>
+                        <h3 class="text-2xl sm:text-3xl font-black leading-tight">Mulai Langkah Keberkahan Anda</h3>
+                        <p class="text-emerald-100/80 text-sm">Ada pertanyaan seputar produk simpanan wadiah, investasi mudharabah, pembiayaan modal usaha musyarakah, atau kemitraan? Hubungi tim kami.</p>
+                    </div>
+
+                    <div class="space-y-4 my-8">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-lg"><i class="fa-solid fa-phone"></i></div>
+                            <div>
+                                <p class="text-[10px] text-emerald-300 font-bold uppercase">Call Center Resmi</p>
+                                <p class="text-sm font-bold">1500 099</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-lg"><i class="fa-solid fa-envelope"></i></div>
+                            <div>
+                                <p class="text-[10px] text-emerald-300 font-bold uppercase">Surat Elektronik (Email)</p>
+                                <p class="text-sm font-bold">info@kopnussyariah.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-lg"><i class="fa-brands fa-whatsapp"></i></div>
+                            <div>
+                                <p class="text-[10px] text-emerald-300 font-bold uppercase">Kirim WhatsApp</p>
+                                <p class="text-sm font-bold">0811-1234-5678</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-[11px] text-emerald-200/50">#HidupBerkah - Solusi Keuangan Berbasis Koperasi Syariah</p>
+                </div>
+
+                <!-- Input Form Panel -->
+                <div class="lg:col-span-7 p-8 sm:p-10" x-data="{
+                    name: '',
+                    email: '',
+                    phone: '',
+                    message: '',
+                    submitForm() {
+                        if (!this.name || !this.email || !this.phone || !this.message) {
+                            return;
+                        }
+                        setTimeout(() => {
+                            this.name = '';
+                            this.email = '';
+                            this.phone = '';
+                            this.message = '';
+                            contactSuccess = true;
+                        }, 500);
+                    }
+                }">
+                    <form @submit.prevent="submitForm()" class="space-y-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Nama Lengkap*</label>
+                                <input type="text" x-model="name" required placeholder="Contoh: Achmad Syarif" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-brandOrange-500/20 focus:border-brandOrange-500 outline-none transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Alamat Email*</label>
+                                <input type="email" x-model="email" required placeholder="Contoh: achmad@gmail.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-brandOrange-500/20 focus:border-brandOrange-500 outline-none transition-all">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Nomor Handphone (WhatsApp)*</label>
+                            <input type="tel" x-model="phone" required placeholder="Contoh: 081234567890" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-brandOrange-500/20 focus:border-brandOrange-500 outline-none transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Pertanyaan / Pesan Anda*</label>
+                            <textarea x-model="message" required rows="4" placeholder="Tuliskan produk atau program pembiayaan syariah yang ingin ditanyakan..." class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-brandOrange-500/20 focus:border-brandOrange-500 outline-none transition-all resize-none"></textarea>
+                        </div>
+                        <div class="pt-2">
+                            <button type="submit" class="w-full sm:w-auto px-8 py-3.5 bg-brandOrange-500 hover:bg-brandOrange-600 font-bold text-white rounded-full text-sm shadow-md transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i> Kirim Pertanyaan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-950 text-gray-400 pt-16 pb-8 border-t border-gray-900 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 border-b border-gray-900 pb-12 mb-12">
+                
+                <!-- About Col -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="relative flex items-center justify-center w-10 h-10 rounded-full bg-brandOrange-500 shadow-md">
+                            <span class="text-white font-extrabold text-xl">O</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-base font-extrabold tracking-tight text-white leading-none">KOPNUS</span>
+                            <span class="text-xs font-bold text-brandOrange-500 tracking-wider">SYARIAH</span>
+                        </div>
+                    </div>
+                    <p class="text-xs leading-relaxed text-gray-400">
+                        KSPPS Kopnus Indonesia melayani kebutuhan transaksi finansial harian serta program pembiayaan usaha, konsumsi, dan kebajikan murni yang berkah berlandaskan syariat Islam.
+                    </p>
+                </div>
+
+                <!-- Products Link Col -->
+                <div class="space-y-4">
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider">Simpanan Oren</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#layanan" @click="productTab = 'simpanan'" class="hover:text-brandOrange-500 transition-colors">Tabungan Oren Easy (Wadiah)</a></li>
+                        <li><a href="#layanan" @click="productTab = 'simpanan'" class="hover:text-brandOrange-500 transition-colors">Tabungan Oren Investa (Mudharabah)</a></li>
+                        <li><a href="#layanan" @click="productTab = 'simpanan'" class="hover:text-brandOrange-500 transition-colors">Tabungan Oren Student (Wadiah)</a></li>
+                        <li><a href="#layanan" @click="productTab = 'simpanan'" class="hover:text-brandOrange-500 transition-colors">Deposito Oren Berjangka</a></li>
+                    </ul>
+                </div>
+
+                <!-- Corporate Links -->
+                <div class="space-y-4">
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider">Pembiayaan Syariah</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#layanan" @click="productTab = 'pembiayaan'" class="hover:text-brandOrange-500 transition-colors">Oren Mulus (Murabahah)</a></li>
+                        <li><a href="#layanan" @click="productTab = 'pembiayaan'" class="hover:text-brandOrange-500 transition-colors">Oren Usaha (Musyarakah)</a></li>
+                        <li><a href="#layanan" @click="productTab = 'pembiayaan'" class="hover:text-brandOrange-500 transition-colors">Oren Darurat (Qardhul Hasan)</a></li>
+                        <li><a href="#layanan" @click="productTab = 'pembiayaan'" class="hover:text-brandOrange-500 transition-colors">Oren Pendidikan (Qardhul Hasan)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Disclosures -->
+                <div class="space-y-4">
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider">Keanggotaan & Izin</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Terdaftar dan diawasi oleh Kementerian Koperasi dan Usaha Kecil dan Menengah (KemenkopUKM) Republik Indonesia. Mengikuti arahan rekomendasi fatwa Dewan Syariah Nasional MUI.
+                    </p>
+                    <div class="flex items-center gap-4 pt-2">
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-900 hover:bg-brandOrange-500 hover:text-white flex items-center justify-center text-sm transition-all"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-900 hover:bg-brandOrange-500 hover:text-white flex items-center justify-center text-sm transition-all"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-900 hover:bg-brandOrange-500 hover:text-white flex items-center justify-center text-sm transition-all"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-900 hover:bg-brandOrange-500 hover:text-white flex items-center justify-center text-sm transition-all"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-between items-center text-center gap-4 text-[11px] text-gray-500">
+                <p>&copy; 2026 KSPPS KOPNUS INDONESIA. Hak Cipta Dilindungi. Desain Profil Digital.</p>
+                <div class="flex items-center gap-2 text-[10px] bg-gray-900 py-1.5 px-3 rounded-full border border-gray-800">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Sistem Terenkripsi SSL Aman</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Detailed Information Modals -->
+    <div x-show="modalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto" x-cloak>
+        <!-- Backdrop background element -->
+        <div class="fixed inset-0 bg-gray-950/80 backdrop-blur-sm transition-opacity" @click="modalOpen = false"></div>
+
+        <!-- Modal content wrapper box -->
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 relative z-10 shadow-2xl border border-gray-100 max-h-[90vh] overflow-y-auto" x-transition>
+            <!-- Close Button -->
+            <button @click="modalOpen = false" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
+                <i class="fa-solid fa-circle-xmark text-2xl"></i>
+            </button>
+
+            <!-- Modal Content: Tabungan Oren Easy -->
+            <div x-show="modalType === 'easy'" class="space-y-5">
+                <div class="w-12 h-12 rounded-xl bg-brandOrange-50 text-brandOrange-500 flex items-center justify-center text-xl font-bold">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-brandGreen-800">Tabungan Oren Easy</h3>
+                    <p class="text-xs text-brandGreen-600 font-semibold bg-brandGreen-50 inline-block px-2.5 py-1 rounded-full mt-1">Akad Wadiah Yad Dhamanah</p>
+                </div>
+                <div class="text-sm text-gray-600 space-y-3 leading-relaxed">
+                    <p>Tabungan Oren Easy dirancang untuk mendukung kelancaran finansial harian Anggota. Dengan prinsip penitipan dana murni yang amanah, uang Anda dapat diakses dan digunakan bertransaksi kapan saja.</p>
+                    <p class="font-bold text-gray-800">Fitur & Manfaat:</p>
+                    <ul class="space-y-2 pl-4 list-disc text-xs">
+                        <li>Bebas biaya administrasi bulanan tersembunyi.</li>
+                        <li>Setoran awal pembukaan sangat terjangkau (hanya Rp 20.000).</li>
+                        <li>Dapat diakses 24/7 dan ditarik instan via aplikasi Oren Syariah.</li>
+                        <li>Menerima bonus bulanan (sesuai kebijakan kelolaan koperasi).</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-gray-100">
+                    <a href="#download" @click="modalOpen = false" class="w-full inline-flex justify-center py-3 bg-brandOrange-500 hover:bg-brandOrange-600 text-white font-bold rounded-xl text-xs sm:text-sm tracking-wide transition-colors">
+                        Buka Rekening di App
+                    </a>
+                </div>
+            </div>
+
+            <!-- Modal Content: Tabungan Oren Investa -->
+            <div x-show="modalType === 'investa'" class="space-y-5" x-cloak>
+                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-xl font-bold">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-brandGreen-800">Tabungan Oren Investa</h3>
+                    <p class="text-xs text-brandOrange-600 font-semibold bg-brandOrange-50 inline-block px-2.5 py-1 rounded-full mt-1">Akad Mudharabah Mutlaqah</p>
+                </div>
+                <div class="text-sm text-gray-600 space-y-3 leading-relaxed">
+                    <p>Tabungan Oren Investa menggabungkan fleksibilitas tabungan harian dengan imbal hasil bagi hasil yang kompetitif karena dana diinvestasikan langsung pada proyek usaha riil yang halal.</p>
+                    <p class="font-bold text-gray-800">Kelebihan Utama:</p>
+                    <ul class="space-y-2 pl-4 list-disc text-xs">
+                        <li>Bagi hasil (Nisbah) bulanan berkah & berkeadilan.</li>
+                        <li>Tanpa ada potongan biaya bulanan jika saldo memenuhi batas minimum.</li>
+                        <li>Laporan alokasi investasi usaha riil yang transparan.</li>
+                        <li>Penyetoran tambahan fleksibel kapan saja.</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-gray-100">
+                    <a href="#simulasi" @click="modalOpen = false" class="w-full inline-flex justify-center py-3 bg-brandOrange-500 hover:bg-brandOrange-600 text-white font-bold rounded-xl text-xs sm:text-sm tracking-wide transition-colors">
+                        Gunakan Kalkulator Hasil
+                    </a>
+                </div>
+            </div>
+
+            <!-- Modal Content: Tabungan Oren Student -->
+            <div x-show="modalType === 'student'" class="space-y-5" x-cloak>
+                <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl font-bold">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-brandGreen-800">Tabungan Oren Student</h3>
+                    <p class="text-xs text-brandGreen-600 font-semibold bg-brandGreen-50 inline-block px-2.5 py-1 rounded-full mt-1">Akad Wadiah Yad Dhamanah</p>
+                </div>
+                <div class="text-sm text-gray-600 space-y-3 leading-relaxed">
+                    <p>Persiapkan masa depan pendidikan buah hati sejak dini secara berkah. Tabungan Oren Student dikhususkan untuk melatih anak usia sekolah belajar disiplin menabung.</p>
+                    <p class="font-bold text-gray-800">Keunggulan:</p>
+                    <ul class="space-y-2 pl-4 list-disc text-xs">
+                        <li>Setoran pembukaan super ringan, mulai dari Rp 10.000.</li>
+                        <li>Gratis biaya administrasi bulanan tanpa syarat.</li>
+                        <li>Atas nama anak, pembukaan di dampingi orang tua/wali resmi.</li>
+                        <li>Membantu merencanakan keuangan sekolah atau kuliah anak.</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-gray-100">
+                    <a href="#download" @click="modalOpen = false" class="w-full inline-flex justify-center py-3 bg-brandOrange-500 hover:bg-brandOrange-600 text-white font-bold rounded-xl text-xs sm:text-sm tracking-wide transition-colors">
+                        Buka Rekening Pendidikan
+                    </a>
+                </div>
+            </div>
+
+            <!-- Modal Content: Deposito Oren Berjangka -->
+            <div x-show="modalType === 'deposito'" class="space-y-5" x-cloak>
+                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold">
+                    <i class="fa-solid fa-vault"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-brandGreen-800">Deposito Oren Berjangka</h3>
+                    <p class="text-xs text-brandOrange-600 font-semibold bg-brandOrange-50 inline-block px-2.5 py-1 rounded-full mt-1">Akad Mudharabah Mutlaqah</p>
+                </div>
+                <div class="text-sm text-gray-600 space-y-3 leading-relaxed">
+                    <p>Deposito Oren Berjangka adalah sarana investasi berjangka premium yang aman dengan indikasi bagi hasil yang sangat menarik dan kompetitif, dikelola secara murni profesional.</p>
+                    <p class="font-bold text-gray-800">Pilihan Tenor & Manfaat:</p>
+                    <ul class="space-y-2 pl-4 list-disc text-xs">
+                        <li>Pilihan jangka waktu: 3, 6, 12, dan 24 bulan.</li>
+                        <li>Bagi hasil bulanan berkah langsung dikirim ke rekening tabungan harian.</li>
+                        <li>Dapat diperpanjang secara otomatis menggunakan sistem ARO (Automatic Roll Over).</li>
+                        <li>Sertifikat kepemilikan investasi digital resmi di dalam aplikasi mobile.</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-gray-100">
+                    <a href="#simulasi" @click="modalOpen = false" class="w-full inline-flex justify-center py-3 bg-brandOrange-500 hover:bg-brandOrange-600 text-white font-bold rounded-xl text-xs sm:text-sm tracking-wide transition-colors">
+                        Simulasi Imbal Hasil
+                    </a>
+                </div>
+            </div>
+
+            <!-- Modal Content: Oren Mulus -->
+            <div x-show="modalType === 'mulus'" class="space-y-5" x-cloak>
+                <div class="w-12 h-12 rounded-xl bg-brandGreen-50 text-brandGreen-600 flex items-center justify-center text-xl font-bold">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-brandGreen-800">Oren Mulus (Pembiayaan Konsumtif)</h3>
+                    <p class="text-xs text-amber-600 font-semibold bg-amber-50 inline-block px-2.5 py-1 rounded-full mt-1">Akad Murabahah (Jual Beli)</p>
+                </div>
+                <div class="text-sm text-gray-600 space-y-3 leading-relaxed">
+                    <p>Oren Mulus memberikan solusi pembiayaan barang kebutuhan konsumsi anggota secara murni tanpa unsur bunga kredit. Anggota menyepakati harga beli barang ditambah margin keuntungan tetap koperasi di awal akad.</p>
+                    <p class="font-bold text-gray-800">Kelebihan:</p>
+                    <ul class="space-y-2 pl-4 list-disc text-xs">
+                        <li>Angsuran bulanan bersifat tetap selama masa tenor, tidak ada bunga mengambang.</li>
+                        <li>Pilihan barang fleksibel (kendaraan bermotor, perabot, material renovasi).</li>
+                        <li>Bebas dari penalti bunga jika melakukan pelunasan dipercepat.</li>
+                        <li>Persyaratan dokumen mudah dan ramah layanan.</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-gray-100">
+                    <a href="#kontak" @click="modalOpen = false" class="w-full inline-flex justify-center py-3 bg-brandOrange-500 hover:bg-brandOrange-600 text-white font-bold rounded-xl text-xs sm:text-sm tracking-wide transition-colors">
+                        Ajukan Pembiayaan
+                    </a>
+                </div>
+            </div>
+
+            <!-- Modal Content: Oren Usaha -->
+            <div x-show="modalType === 'usaha'" class="space-y-5" x-cloak>
+                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-brandGreen-800">Oren Usaha (Modal Usaha)</h3>
+                    <p class="text-xs text-brandOrange-600 font-semibold bg-brandOrange-50 inline-block px-2.5 py-1 rounded-full mt-1">Akad Musyarakah (Syirkah)</p>
+                </div>
+                <div class="text-sm text-gray-600 space-y-3 leading-relaxed">
+                    <p>Kembangkan bisnis atau usaha produktif Anda secara halal bersama Kopnus Syariah melalui skema kemitraan modal kerja dengan prinsip saling menguntungkan dan adil.</p>
+                    <p class="font-bold text-gray-800">Ketentuan & Keuntungan:</p>
+                    <ul class="space-y-2 pl-4 list-disc text-xs">
+                        <li>Sistem pembagian keuntungan bisnis yang proporsional sesuai porsi kesepakatan.</li>
+                        <li>Dukungan finansial modal kerja, ekspansi usaha, maupun pembelian alat produksi.</li>
+                        <li>Pendampingan pengelolaan bisnis dan administrasi secara transparan.</li>
+                        <li>Membantu memperkuat posisi perekonomian umat dan UMKM nasional.</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-gray-100">
+                    <a href="#kontak" @click="modalOpen = false" class="w-full inline-flex justify-center py-3 bg-brandOrange-500 hover:bg-brandOrange-600 text-white font-bold rounded-xl text-xs sm:text-sm tracking-wide transition-colors">
+                        Hubungi Account Officer
+                    </a>
+                </div>
+            </div>
+
+            <!-- Modal Content: Oren Darurat -->
+            <div x-show="modalType === 'darurat'" class="space-y-5" x-cloak>
+                <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl font-bold">
+                    <i class="fa-solid fa-kit-medical"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-brandGreen-800">Oren Darurat</h3>
+                    <p class="text-xs text-teal-600 font-semibold bg-teal-50 inline-block px-2.5 py-1 rounded-full mt-1">Akad Qardhul Hasan (Sosial)</p>
+                </div>
+                <div class="text-sm text-gray-600 space-y-3 leading-relaxed">
+                    <p>Oren Darurat adalah wujud nyata kepedulian sosial koperasi untuk membantu meringankan beban anggota saat terjadi peristiwa darurat tak terduga dengan pinjaman kebajikan murni tanpa margin/bunga.</p>
+                    <p class="font-bold text-gray-800">Ketentuan:</p>
+                    <ul class="space-y-2 pl-4 list-disc text-xs">
+                        <li>Bebas margin keuntungan, komisi tambahan, ataupun penalti bunga.</li>
+                        <li>Pengembalian murni berupa pokok pinjaman awal.</li>
+                        <li>Khusus diperuntukkan bagi kebutuhan mendesak (musibah medis, kecelakaan, pemulihan darurat).</li>
+                        <li>Syarat pengajuan disesuaikan dengan kondisi darurat di lapangan.</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-gray-100">
+                    <a href="#kontak" @click="modalOpen = false" class="w-full inline-flex justify-center py-3 bg-brandOrange-500 hover:bg-brandOrange-600 text-white font-bold rounded-xl text-xs sm:text-sm tracking-wide transition-colors">
+                        Minta Bantuan Darurat
+                    </a>
+                </div>
+            </div>
+
+            <!-- Modal Content: Oren Pendidikan -->
+            <div x-show="modalType === 'pendidikan'" class="space-y-5" x-cloak>
+                <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl font-bold">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-brandGreen-800">Oren Pendidikan</h3>
+                    <p class="text-xs text-teal-600 font-semibold bg-teal-50 inline-block px-2.5 py-1 rounded-full mt-1">Akad Qardhul Hasan (Sosial)</p>
+                </div>
+                <div class="text-sm text-gray-600 space-y-3 leading-relaxed">
+                    <p>Jangan biarkan kendala biaya menghentikan impian anak meraih prestasi tinggi. Oren Pendidikan menyalurkan pinjaman sosial tanpa bunga untuk melunasi biaya sekolah/kuliah.</p>
+                    <p class="font-bold text-gray-800">Manfaat & Syarat:</p>
+                    <ul class="space-y-2 pl-4 list-disc text-xs">
+                        <li>Pinjaman murni bebas riba untuk uang pangkal, spp, atau pendaftaran sekolah.</li>
+                        <li>Tanpa beban biaya tambahan, mendukung kelancaran studi anak.</li>
+                        <li>Tenor angsuran disesuaikan dengan kemampuan wali siswa.</li>
+                        <li>Membutuhkan bukti tagihan resmi dari institusi sekolah atau perguruan tinggi terkait.</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-gray-100">
+                    <a href="#kontak" @click="modalOpen = false" class="w-full inline-flex justify-center py-3 bg-brandOrange-500 hover:bg-brandOrange-600 text-white font-bold rounded-xl text-xs sm:text-sm tracking-wide transition-colors">
+                        Ajukan Pembiayaan Studi
+                    </a>
+                </div>
+            </div>
+
+            <!-- Modal Content: Partner -->
+            <div x-show="modalType === 'partner'" class="space-y-5" x-cloak>
+                <div class="w-12 h-12 rounded-xl bg-brandGreen-50 text-brandGreen-600 flex items-center justify-center text-xl font-bold">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-brandGreen-800">Registrasi Oren Partner</h3>
+                    <p class="text-xs text-brandOrange-600 font-semibold bg-brandOrange-50 inline-block px-2.5 py-1 rounded-full mt-1">Kemitraan Keberkahan</p>
+                </div>
+                <div class="text-sm text-gray-600 space-y-4">
+                    <p>Daftarkan diri Anda menjadi bagian dari jaringan Oren Partner. Dapatkan kesempatan beramal baik sekaligus meningkatkan kesejahteraan ekonomi keluarga Anda.</p>
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 space-y-3 text-xs">
+                        <div>
+                            <label class="block font-bold text-gray-500 mb-1">Nama Pemohon</label>
+                            <input type="text" placeholder="Masukkan nama Anda" class="w-full px-3 py-2 rounded-lg border border-gray-200 outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-gray-500 mb-1">No. Handphone (WhatsApp)</label>
+                            <input type="tel" placeholder="Masukkan nomor WhatsApp" class="w-full px-3 py-2 rounded-lg border border-gray-200 outline-none">
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-gray-100 flex gap-3">
+                    <button @click="modalOpen = false" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl text-xs">Batal</button>
+                    <button @click="modalOpen = false; contactSuccess = true" class="flex-1 py-2 bg-brandOrange-500 hover:bg-brandOrange-600 text-white font-bold rounded-xl text-xs transition-colors">Kirim Pendaftaran</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Custom Success Toast Notification -->
+    <div x-show="contactSuccess" class="fixed bottom-6 right-6 z-50 max-w-sm w-full bg-white rounded-2xl shadow-2xl border-l-4 border-emerald-500 p-5 flex gap-4 items-start" x-transition x-cloak>
+        <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center flex-shrink-0 text-lg">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div class="flex-1">
+            <h4 class="font-bold text-gray-800 text-sm">Pesan Terkirim!</h4>
+            <p class="text-xs text-gray-500 mt-1">Terima kasih atas kiriman formulir Anda. Tim layanan pelanggan Kopnus Syariah akan segera menghubungi Anda kembali.</p>
+            <button @click="contactSuccess = false" class="mt-3 text-xs font-bold text-emerald-600 hover:text-emerald-700">Tutup</button>
+        </div>
+    </div>
+
+</body>
+</html>
